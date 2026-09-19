@@ -1,7 +1,25 @@
-target/
-.git/
+# ENVIROMENTS / SECRETS
+.env
+.env.*
+!.env.example
+
+# Git
+.git
+.gitignore
+.gitattributes
+
+# IDE
 .idea/
 .vscode/
 *.iml
-*.log
+
+# BUILDS
+target/
+
+# LOGS
+.log
+logs/
+
+# OS FILES
 .DS_Store
+Thumbs.db
