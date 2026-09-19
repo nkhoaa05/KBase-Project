@@ -2,6 +2,7 @@ package org.example.kbase.Controllers;
 
 import jakarta.validation.Valid;
 import org.example.kbase.Models.DTO.Request.AuthRequestDTO;
+import org.example.kbase.Models.DTO.Request.Response.ApiResponse;
 import org.example.kbase.Services.IAuthService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -11,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/api/auth")
+@RequestMapping("${api.prefix}/auth")
 public class AuthController {
 
     private final IAuthService authService;
@@ -21,18 +22,14 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<Void> login(@Valid @RequestBody AuthRequestDTO request){
+    public ResponseEntity<ApiResponse> login(@Valid @RequestBody AuthRequestDTO request){
         authService.login(request);
-        return ResponseEntity
-                .status(HttpStatus.OK)
-                .build();
+        return ResponseEntity.ok(new ApiResponse("Login successfully", null));
     }
 
     @PostMapping("/register")
-    public ResponseEntity<Void> register(@Valid @RequestBody AuthRequestDTO request){
+    public ResponseEntity<ApiResponse> register(@Valid @RequestBody AuthRequestDTO request){
         authService.register(request);
-        return ResponseEntity
-                .status(HttpStatus.CREATED)
-                .build();
+        return ResponseEntity.ok(new ApiResponse("Account created! You can login now", null));
     }
 }
