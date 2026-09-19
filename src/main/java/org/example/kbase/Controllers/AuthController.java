@@ -21,8 +21,11 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public String login(@Valid @RequestBody AuthRequestDTO request){
-        return "Login successfully: \n" + request.email() + "\npassword: " + request.password();
+    public ResponseEntity<Void> login(@Valid @RequestBody AuthRequestDTO request){
+        authService.login(request);
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .build();
     }
 
     @PostMapping("/register")
