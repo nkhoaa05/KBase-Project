@@ -1,7 +1,7 @@
-package org.example.kbase.Services;
+package org.example.kbase.service.user;
 
-import org.example.kbase.Models.DTO.Request.AuthRequestDTO;
-import org.example.kbase.Models.User;
+import org.example.kbase.model.user.dto.AuthRequestDTO;
+import org.example.kbase.model.user.User;
 
 
 public interface IUserService {

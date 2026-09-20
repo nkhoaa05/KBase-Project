@@ -1,4 +1,4 @@
-package org.example.kbase.Models.DTO.Request.Response;
+package org.example.kbase.common.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

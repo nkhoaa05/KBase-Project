@@ -1,4 +1,4 @@
-package org.example.kbase.Controllers;
+package org.example.kbase.controller;
 
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;

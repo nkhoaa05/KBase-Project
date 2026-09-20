@@ -1,10 +1,10 @@
-package org.example.kbase.Models.DTO.Request;
+package org.example.kbase.model.user.dto;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 
-public record AuthRequestDTO(
+public record CreateUserRequest(
 
         @NotBlank(message = "Email is required")
         @Email(message = "Invalid email format")
@@ -13,5 +13,5 @@ public record AuthRequestDTO(
         @NotBlank(message = "Password is required")
         @Size(min = 8, message = "Password must contain at least 8 characters")
         String password
-)
-{ }
+) {
+}

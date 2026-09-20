@@ -1,4 +1,4 @@
-package org.example.kbase.config;
+package org.example.kbase.common.config;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;

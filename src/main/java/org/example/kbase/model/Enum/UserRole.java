@@ -1,4 +1,4 @@
-package org.example.kbase.Models.Enum;
+package org.example.kbase.model.Enum;
 
 public enum UserRole {
     USER,

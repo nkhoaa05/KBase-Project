@@ -1,9 +1,9 @@
-package org.example.kbase.Services;
+package org.example.kbase.service.user;
 
-import org.example.kbase.Models.DTO.Request.AuthRequestDTO;
-import org.example.kbase.Models.Enum.UserRole;
-import org.example.kbase.Models.User;
-import org.example.kbase.Repositories.UserRepository;
+import org.example.kbase.model.user.dto.AuthRequestDTO;
+import org.example.kbase.model.Enum.UserRole;
+import org.example.kbase.model.user.User;
+import org.example.kbase.repository.UserRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 

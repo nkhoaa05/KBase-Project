@@ -1,10 +1,9 @@
-package org.example.kbase.Controllers;
+package org.example.kbase.controller;
 
 import jakarta.validation.Valid;
-import org.example.kbase.Models.DTO.Request.AuthRequestDTO;
-import org.example.kbase.Models.DTO.Request.Response.ApiResponse;
-import org.example.kbase.Services.IAuthService;
-import org.springframework.http.HttpStatus;
+import org.example.kbase.model.user.dto.AuthRequestDTO;
+import org.example.kbase.common.response.ApiResponse;
+import org.example.kbase.service.auth.IAuthService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;

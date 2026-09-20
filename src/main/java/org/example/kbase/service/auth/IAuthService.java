@@ -1,6 +1,6 @@
-package org.example.kbase.Services;
+package org.example.kbase.service.auth;
 
-import org.example.kbase.Models.DTO.Request.AuthRequestDTO;
+import org.example.kbase.model.user.dto.AuthRequestDTO;
 
 
 public interface IAuthService {

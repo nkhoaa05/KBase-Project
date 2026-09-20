@@ -1,10 +1,10 @@
-package org.example.kbase.Models;
+package org.example.kbase.model.user;
 
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.example.kbase.Models.Enum.UserRole;
+import org.example.kbase.model.Enum.UserRole;
 
 import java.util.UUID;
 

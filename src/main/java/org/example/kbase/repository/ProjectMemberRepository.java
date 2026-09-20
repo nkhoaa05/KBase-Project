@@ -1,6 +1,6 @@
-package org.example.kbase.Repositories;
+package org.example.kbase.repository;
 
-import org.example.kbase.Models.ProjectMember;
+import org.example.kbase.model.projectmember.ProjectMember;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
