@@ -5,6 +5,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.example.kbase.model.Enum.ProjectRole;
+import org.example.kbase.model.project.Project;
+import org.example.kbase.model.user.User;
+
 import java.util.UUID;
 
 
@@ -12,7 +15,14 @@ import java.util.UUID;
 @Setter
 @NoArgsConstructor
 @Entity
-@Table(name = "project_members")
+@Table(name = "project_members",
+    uniqueConstraints = {
+    @UniqueConstraint(
+            name = "uq_project_member",
+            columnNames = {"project_id", "member_id"}
+    )
+    }
+)
 public class ProjectMember {
 
     @Id
@@ -20,13 +30,15 @@ public class ProjectMember {
     @Column(name = "id")
     private UUID id;
 
-    @Column(name = "project_id")
-    private UUID projectId;
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "project_id", nullable = false)
+    private Project projectId;
 
-    @Column(name = "member_id")
-    private UUID memberId;
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "member_id", nullable = false)
+    private User memberId;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "role")
+    @Column(name = "role", nullable = false)
     private ProjectRole role;
 }
