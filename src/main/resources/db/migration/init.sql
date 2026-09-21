@@ -1,6 +1,6 @@
-CREATE DATABASE kbase IF NOT EXIST
-USE DATABASE kbase;
+CREATE DATABASE kbase
 
+-- USERS
 CREATE TABLE users(
     id UUID PRIMARY KEY,
     email VARCHAR(100) NOT NULL UNIQUE,
@@ -8,26 +8,23 @@ CREATE TABLE users(
     role VARCHAR(50) NOT NULL
 );
 
+-- PROJECTS
 CREATE TABLE projects(
     id UUID PRIMARY KEY,
-    owner_id UUID,
     name VARCHAR(200) NOT NULL,
-    description VARCHAR(300),
-
-    CONSTRAINT fk_project_owner
-                     FOREIGN KEY (owner_id)
-                     REFERENCES users(id)
+    description VARCHAR(300)
 );
 
+-- DOCUMENTS
 CREATE TABLE documents(
     id UUID PRIMARY KEY,
-    project_id UUID,
-    owner_id UUID,
-    name VARCHAR(100) NOT NULL,
-    file_type VARCHAR(10) NOT NULL,
+    project_id UUID NOT NULL,
+    uploaded_by UUID,
+    name VARCHAR(255) NOT NULL,
+    file_type VARCHAR(255) NOT NULL,
     file_size BIGINT NOT NULL,
     storage_key VARCHAR(300) NOT NULL UNIQUE,
-    create_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+    uploaded_at  TIMESTAMPTZ NOT NULL DEFAULT NOW(),
 
     CONSTRAINT fk_project_documents
                       FOREIGN KEY (project_id)
@@ -35,15 +32,16 @@ CREATE TABLE documents(
                       ON DELETE CASCADE,
 
     CONSTRAINT fk_owner_documents
-                      FOREIGN KEY (owner_id)
+                      FOREIGN KEY (uploaded_by)
                       REFERENCES users(id)
-                      ON DELETE CASCADE
+                      ON DELETE SET NULL
 );
 
+-- PROJECT MEMBERS
 CREATE TABLE project_members(
     id UUID PRIMARY KEY,
-    project_id UUID,
-    member_id UUID,
+    project_id UUID NOT NULL,
+    member_id UUID NOT NULL,
     role VARCHAR(50) NOT NULL,
 
     CONSTRAINT fk_project_member_project
@@ -57,5 +55,9 @@ CREATE TABLE project_members(
                             ON DELETE CASCADE,
 
     CONSTRAINT uq_project_member
-                            UNIQUE (project_id, member_id)
+                            UNIQUE (project_id, member_id),
+
+    CONSTRAINT uq_project_member_role
+                            UNIQUE (project_id)
+                            WHERE role = 'OWNER'
 );
