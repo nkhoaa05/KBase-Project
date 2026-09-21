@@ -55,9 +55,10 @@ CREATE TABLE project_members(
                             ON DELETE CASCADE,
 
     CONSTRAINT uq_project_member
-                            UNIQUE (project_id, member_id),
+                            UNIQUE (project_id, member_id)
 
-    CONSTRAINT uq_project_member_role
-                            UNIQUE (project_id)
-                            WHERE role = 'OWNER'
 );
+
+    CREATE UNIQUE INDEX uq_project_member_owner
+        ON project_members(project_id)
+        WHERE role = 'OWNER';
