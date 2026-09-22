@@ -1,25 +1,33 @@
 package org.example.kbase.service.user;
 
-import org.example.kbase.model.user.dto.AuthRequestDTO;
+import org.example.kbase.dto.request.AuthRequest;
+import org.example.kbase.dto.request.UpdateUserRequest;
+import org.example.kbase.dto.response.UserResponse;
 import org.example.kbase.model.Enum.UserRole;
-import org.example.kbase.model.user.User;
+import org.example.kbase.model.User;
 import org.example.kbase.repository.UserRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+import java.util.UUID;
 
 @Service
-public class UserService implements IUserService{
+@Transactional(readOnly = true)
+public class UserService implements IUserService {
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
 
-    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder){
+    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
     }
 
     @Override
-    public void createUser(AuthRequestDTO request) {
+    @Transactional
+    public void createUser(AuthRequest request) {
         String email = request.email()
                 .trim()
                 .toLowerCase();
@@ -34,17 +42,52 @@ public class UserService implements IUserService{
     }
 
     @Override
-    public User updateUser() {
-        return null;
+    @Transactional
+    public void updateUser(UUID userId, UpdateUserRequest request) {
+        User existingUser = userRepository.findById(userId)
+                .orElseThrow(() ->
+                        new RuntimeException("User not found: ID " + userId));
+
+        if (passwordEncoder.matches(request.password(),
+                                    existingUser.getPassword())){
+            throw new RuntimeException("New password must be different from the old one");
+        }
+
+        String hashedPassword = passwordEncoder.encode(request.password());
+
+        existingUser.setPassword(hashedPassword);
     }
 
     @Override
-    public User deleteUser() {
-        return null;
+    @Transactional
+    public void deleteUser(UUID userId) {
+        if (!userRepository.existsById(userId)) throw new RuntimeException("User not found");
+        userRepository.deleteById(userId);
     }
 
     @Override
-    public User getUser() {
-        return null;
+    public UserResponse getUserById(UUID userId) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() ->
+                        new RuntimeException("User not found: ID " + userId)
+                );
+
+        return new UserResponse(
+                user.getId(),
+                user.getEmail(),
+                user.getRole().name()
+        );
+    }
+
+    @Override
+    public List<UserResponse> getAllUser() {
+        return userRepository.findAll()
+                .stream()
+                .map(user -> new UserResponse(
+                        user.getId(),
+                        user.getEmail(),
+                        user.getRole().name()
+                ))
+                .toList();
     }
 }

@@ -1,12 +1,22 @@
 package org.example.kbase.service.user;
 
-import org.example.kbase.model.user.dto.AuthRequestDTO;
-import org.example.kbase.model.user.User;
+import org.example.kbase.dto.request.AuthRequest;
+import org.example.kbase.dto.request.UpdateUserRequest;
+import org.example.kbase.dto.response.UserResponse;
+
+import java.util.List;
+import java.util.UUID;
 
 
 public interface IUserService {
-    public void createUser(AuthRequestDTO request);
-    public User updateUser();
-    public User deleteUser();
-    public User getUser();
+
+    void createUser(AuthRequest request);
+
+    void updateUser(UUID userId, UpdateUserRequest request);
+
+    void deleteUser(UUID userId);
+
+    UserResponse getUserById(UUID userId);
+
+    List<UserResponse> getAllUser();
 }
