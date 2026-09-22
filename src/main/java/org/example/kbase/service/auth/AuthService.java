@@ -1,11 +1,12 @@
 package org.example.kbase.service.auth;
 
-import org.example.kbase.model.user.dto.AuthRequestDTO;
+import org.example.kbase.dto.request.AuthRequest;
 import org.example.kbase.model.Enum.UserRole;
-import org.example.kbase.model.user.User;
+import org.example.kbase.model.User;
 import org.example.kbase.repository.UserRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class AuthService implements IAuthService{
@@ -19,7 +20,8 @@ public class AuthService implements IAuthService{
     }
 
     @Override
-    public void register(AuthRequestDTO request) {
+    @Transactional
+    public void register(AuthRequest request) {
         if (userRepository.existsByEmail(request.email()
                 .trim()
                 .toLowerCase())
@@ -35,7 +37,7 @@ public class AuthService implements IAuthService{
     }
 
     @Override
-    public void login(AuthRequestDTO request) {
+    public void login(AuthRequest request) {
         User existingUser = userRepository.findByEmail(request.email()
                                             .trim()
                                             .toLowerCase()
