@@ -1,4 +1,4 @@
-package org.example.kbase.model.user;
+package org.example.kbase.model;
 
 import jakarta.persistence.*;
 import lombok.Getter;

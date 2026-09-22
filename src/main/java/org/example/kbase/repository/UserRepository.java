@@ -1,6 +1,6 @@
 package org.example.kbase.repository;
 
-import org.example.kbase.model.user.User;
+import org.example.kbase.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;

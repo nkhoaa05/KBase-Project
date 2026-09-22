@@ -1,12 +1,10 @@
-package org.example.kbase.model.projectmember;
+package org.example.kbase.model;
 
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.example.kbase.model.Enum.ProjectRole;
-import org.example.kbase.model.project.Project;
-import org.example.kbase.model.user.User;
 
 import java.util.UUID;
 
