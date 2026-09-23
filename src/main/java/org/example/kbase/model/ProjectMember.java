@@ -14,12 +14,12 @@ import java.util.UUID;
 @NoArgsConstructor
 @Entity
 @Table(name = "project_members",
-    uniqueConstraints = {
-    @UniqueConstraint(
-            name = "uq_project_member",
-            columnNames = {"project_id", "member_id"}
-    )
-    }
+        uniqueConstraints = {
+                @UniqueConstraint(
+                        name = "uq_project_member",
+                        columnNames = {"project_id", "member_id"}
+                )
+        }
 )
 public class ProjectMember {
 

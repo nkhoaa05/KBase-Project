@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
 import java.util.UUID;
 
 
@@ -27,4 +28,8 @@ public class Project {
     @Column(name = "description")
     private String description;
 
+    public Project(String name, String description) {
+        this.name = name;
+        this.description = description;
+    }
 }
