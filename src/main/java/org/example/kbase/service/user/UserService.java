@@ -49,7 +49,7 @@ public class UserService implements IUserService {
                         new RuntimeException("User not found: ID " + userId));
 
         if (passwordEncoder.matches(request.password(),
-                                    existingUser.getPassword())){
+                existingUser.getPassword())) {
             throw new RuntimeException("New password must be different from the old one");
         }
 
