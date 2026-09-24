@@ -22,7 +22,7 @@ public class CustomUserDetailService implements UserDetailsService {
 
         User user = userRepository.findByEmail(email)
                 .orElseThrow(() ->
-                        new RuntimeException("User not found"));
+                new UsernameNotFoundException("User not found"));
 
         return new UserDetailSecurity(user);
     }

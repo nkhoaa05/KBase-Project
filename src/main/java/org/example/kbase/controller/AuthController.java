@@ -26,18 +26,18 @@ public class AuthController {
             summary = "Login"
     )
     @PostMapping("/login")
-    public ResponseEntity<ApiResponse> login(@Valid @RequestBody AuthRequest request) {
+    public ResponseEntity<ApiResponse<AuthResponse>> login(@Valid @RequestBody AuthRequest request) {
         AuthResponse accessToken = authService.login(request);
-        return ResponseEntity.ok(new ApiResponse("Login successfully", accessToken));
+        return ResponseEntity.ok(new ApiResponse<>("Login successfully", accessToken));
     }
 
     @Operation(
             summary = "Sign up"
     )
     @PostMapping("/signup")
-    public ResponseEntity<ApiResponse> signup(@Valid @RequestBody AuthRequest request) {
+    public ResponseEntity<ApiResponse<Void>> signup(@Valid @RequestBody AuthRequest request) {
         authService.signup(request);
-        return ResponseEntity.ok(new ApiResponse("Account created! You can login now", null));
+        return ResponseEntity.ok(new ApiResponse<Void>("Account created! You can login now", null));
     }
 
     @GetMapping("/me")

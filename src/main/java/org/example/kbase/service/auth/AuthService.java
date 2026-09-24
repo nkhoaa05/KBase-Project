@@ -1,5 +1,6 @@
 package org.example.kbase.service.auth;
 
+import org.example.kbase.common.exception.BadRequestException;
 import org.example.kbase.common.security.jwt.JwtService;
 import org.example.kbase.common.security.user.UserDetailSecurity;
 import org.example.kbase.dto.request.AuthRequest;
@@ -39,7 +40,7 @@ public class AuthService implements IAuthService {
                 .trim()
                 .toLowerCase();
 
-        if (userRepository.existsByEmail(email)) throw new RuntimeException("Email already exist!");
+        if (userRepository.existsByEmail(email)) throw new BadRequestException("Email already exist!");
 
         User newUser = new User(
                 email,
@@ -63,7 +64,7 @@ public class AuthService implements IAuthService {
         Object principal = authentication.getPrincipal();
 
         if (!(principal instanceof UserDetailSecurity userDetail)) {
-            throw new RuntimeException("Not authenticated");
+            throw new BadRequestException("Not authenticated");
         }
 
         String accessToken = jwtService.generateToken(userDetail);

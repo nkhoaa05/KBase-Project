@@ -29,45 +29,45 @@ public class UserController {
             summary = "Create new user"
     )
     @PostMapping("")
-    public ResponseEntity<ApiResponse> createUser(@Valid @RequestBody CreateUserRequest request){
+    public ResponseEntity<ApiResponse<Void>> createUser(@Valid @RequestBody CreateUserRequest request){
         userService.createUser(request);
-        return ResponseEntity.ok(new ApiResponse("success", null));
+        return ResponseEntity.ok(new ApiResponse<Void>("success", null));
     }
 
     @Operation(
             summary = "Get user by ID"
     )
     @GetMapping("/{userId}")
-    public ResponseEntity<ApiResponse> getUserById(@PathVariable UUID userId) {
+    public ResponseEntity<ApiResponse<UserResponse>> getUserById(@PathVariable UUID userId) {
         UserResponse user = userService.getUserById(userId);
-        return ResponseEntity.ok(new ApiResponse("Success", user));
+        return ResponseEntity.ok(new ApiResponse<>("Success", user));
     }
 
     @Operation(
             summary = "Get all user"
     )
     @GetMapping("")
-    public ResponseEntity<ApiResponse> getAllUser() {
+    public ResponseEntity<ApiResponse<List<UserResponse>>> getAllUser() {
         List<UserResponse> users = userService.getAllUser();
-        return ResponseEntity.ok(new ApiResponse("success", users));
+        return ResponseEntity.ok(new ApiResponse<>("success", users));
     }
 
     @Operation(
             summary = "Delete user by ID"
     )
     @DeleteMapping("/{userId}")
-    public ResponseEntity<ApiResponse> deleteUser(@PathVariable UUID userId) {
+    public ResponseEntity<ApiResponse<Void>> deleteUser(@PathVariable UUID userId) {
         userService.deleteUser(userId);
-        return ResponseEntity.ok(new ApiResponse("success", null));
+        return ResponseEntity.ok(new ApiResponse<Void>("success", null));
     }
 
     @Operation(
             summary = "Update user information (password)"
     )
     @PatchMapping("/{userId}")
-    public ResponseEntity<ApiResponse> updateUser(@Valid @PathVariable UUID userId, @RequestBody UpdateUserRequest request) {
+    public ResponseEntity<ApiResponse<Void>> updateUser(@Valid @PathVariable UUID userId, @RequestBody UpdateUserRequest request) {
         userService.updateUser(userId, request);
-        return ResponseEntity.ok(new ApiResponse("success", null));
+        return ResponseEntity.ok(new ApiResponse<Void>("success", null));
     }
 
 }

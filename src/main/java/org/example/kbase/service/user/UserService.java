@@ -1,6 +1,10 @@
 package org.example.kbase.service.user;
 
-import org.example.kbase.dto.request.AuthRequest;
+import java.util.List;
+import java.util.UUID;
+
+import org.example.kbase.common.exception.BadRequestException;
+import org.example.kbase.common.exception.ResourceNotFoundException;
 import org.example.kbase.dto.request.CreateUserRequest;
 import org.example.kbase.dto.request.UpdateUserRequest;
 import org.example.kbase.dto.response.UserResponse;
@@ -10,9 +14,6 @@ import org.example.kbase.repository.UserRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
-import java.util.UUID;
 
 @Service
 @Transactional(readOnly = true)
@@ -32,7 +33,7 @@ public class UserService implements IUserService {
         String email = request.email()
                 .trim()
                 .toLowerCase();
-        if (userRepository.existsByEmail(email)) throw new RuntimeException("Email already exists");
+        if (userRepository.existsByEmail(email)) throw new BadRequestException("Email already exists");
         String hashedPassword = passwordEncoder.encode(request.password());
         User newUser = new User(
                 email,
@@ -47,11 +48,11 @@ public class UserService implements IUserService {
     public void updateUser(UUID userId, UpdateUserRequest request) {
         User existingUser = userRepository.findById(userId)
                 .orElseThrow(() ->
-                        new RuntimeException("User not found: ID " + userId));
+                        new ResourceNotFoundException("User not found: ID " + userId));
 
         if (passwordEncoder.matches(request.password(),
                 existingUser.getPassword())) {
-            throw new RuntimeException("New password must be different from the old one");
+            throw new BadRequestException("New password must be different from the old one");
         }
 
         String hashedPassword = passwordEncoder.encode(request.password());
@@ -62,7 +63,7 @@ public class UserService implements IUserService {
     @Override
     @Transactional
     public void deleteUser(UUID userId) {
-        if (!userRepository.existsById(userId)) throw new RuntimeException("User not found");
+        if (!userRepository.existsById(userId)) throw new ResourceNotFoundException("User not found");
         userRepository.deleteById(userId);
     }
 
@@ -70,7 +71,7 @@ public class UserService implements IUserService {
     public UserResponse getUserById(UUID userId) {
         User user = userRepository.findById(userId)
                 .orElseThrow(() ->
-                        new RuntimeException("User not found: ID " + userId)
+                        new ResourceNotFoundException("User not found: ID " + userId)
                 );
 
         return new UserResponse(
