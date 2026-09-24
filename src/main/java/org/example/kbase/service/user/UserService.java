@@ -1,6 +1,7 @@
 package org.example.kbase.service.user;
 
 import org.example.kbase.dto.request.AuthRequest;
+import org.example.kbase.dto.request.CreateUserRequest;
 import org.example.kbase.dto.request.UpdateUserRequest;
 import org.example.kbase.dto.response.UserResponse;
 import org.example.kbase.model.Enum.UserRole;
@@ -27,7 +28,7 @@ public class UserService implements IUserService {
 
     @Override
     @Transactional
-    public void createUser(AuthRequest request) {
+    public void createUser(CreateUserRequest request) {
         String email = request.email()
                 .trim()
                 .toLowerCase();

@@ -1,6 +1,7 @@
 package org.example.kbase.service.user;
 
 import org.example.kbase.dto.request.AuthRequest;
+import org.example.kbase.dto.request.CreateUserRequest;
 import org.example.kbase.dto.request.UpdateUserRequest;
 import org.example.kbase.dto.response.UserResponse;
 
@@ -10,7 +11,7 @@ import java.util.UUID;
 
 public interface IUserService {
 
-    void createUser(AuthRequest request);
+    void createUser(CreateUserRequest request);
 
     void updateUser(UUID userId, UpdateUserRequest request);
 
