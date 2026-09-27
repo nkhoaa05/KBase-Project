@@ -119,6 +119,22 @@ public class ProjectService implements IProjectService {
 
     }
 
+    @Override
+    public List<ProjectResponse> getAllProjectByCurrentUser() {
+        User currentUser = getCurrentUser();
+
+        return memberRepository.findAllByMember_Id(currentUser.getId())
+                .stream()
+                .map(ProjectMember::getProject)
+                .map(proj -> new ProjectResponse(
+                                proj.getId(),
+                                proj.getName(),
+                                proj.getDescription()
+                        )
+                )
+                .toList();
+    }
+
 
     /*
 

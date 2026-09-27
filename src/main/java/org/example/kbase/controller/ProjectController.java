@@ -65,6 +65,15 @@ public class ProjectController {
         return ResponseEntity.ok(ApiResponse.success("success", projects));
     }
 
+        @Operation(
+                        summary = "Get projects of the current user"
+        )
+        @GetMapping("/mine")
+        public ResponseEntity<ApiResponse<List<ProjectResponse>>> getMyProjects() {
+                List<ProjectResponse> projects = projectService.getAllProjectByCurrentUser();
+                return ResponseEntity.ok(ApiResponse.success("success", projects));
+        }
+
     @Operation(
             summary = "Update project information"
     )

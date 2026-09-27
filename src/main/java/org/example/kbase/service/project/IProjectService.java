@@ -3,7 +3,10 @@ package org.example.kbase.service.project;
 import java.util.List;
 import java.util.UUID;
 
-import org.example.kbase.dto.request.*;
+import org.example.kbase.dto.request.AddMemberRequest;
+import org.example.kbase.dto.request.CreateProjectRequest;
+import org.example.kbase.dto.request.RemoveMemberRequest;
+import org.example.kbase.dto.request.UpdateProjectRequest;
 import org.example.kbase.dto.response.ProjectDetailResponse;
 import org.example.kbase.dto.response.ProjectResponse;
 
@@ -18,6 +21,8 @@ public interface IProjectService {
     ProjectDetailResponse getProjectById(UUID projectId);
 
     List<ProjectResponse> getAllProject();
+
+    List<ProjectResponse> getAllProjectByCurrentUser();
 
     void addMember(AddMemberRequest request);
 
