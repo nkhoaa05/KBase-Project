@@ -6,6 +6,7 @@ public record ProjectMemberResponse(
         UUID id,
         UUID projectId,
         UUID userId,
+        String userEmail,
         String role
 ) {
 }

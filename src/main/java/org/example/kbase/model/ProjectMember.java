@@ -30,11 +30,11 @@ public class ProjectMember {
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "project_id", nullable = false)
-    private Project projectId;
+    private Project project;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "member_id", nullable = false)
-    private User memberId;
+    private User member;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "role", nullable = false)

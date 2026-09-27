@@ -1,11 +1,11 @@
 package org.example.kbase.service.project;
 
-import org.example.kbase.dto.request.CreateProjectRequest;
-import org.example.kbase.dto.request.UpdateProjectRequest;
-import org.example.kbase.dto.response.ProjectResponse;
-
 import java.util.List;
 import java.util.UUID;
+
+import org.example.kbase.dto.request.*;
+import org.example.kbase.dto.response.ProjectDetailResponse;
+import org.example.kbase.dto.response.ProjectResponse;
 
 public interface IProjectService {
 
@@ -15,8 +15,12 @@ public interface IProjectService {
 
     void deleteProject(UUID projectId);
 
-    ProjectResponse getProjectById(UUID projectId);
+    ProjectDetailResponse getProjectById(UUID projectId);
 
     List<ProjectResponse> getAllProject();
+
+    void addMember(AddMemberRequest request);
+
+    void removeMember(RemoveMemberRequest request);
 
 }

@@ -44,15 +44,15 @@ public class SecurityConfig {
 
                 .httpBasic(AbstractHttpConfigurer::disable)
 
-                .authorizeHttpRequests(auth -> auth
+                .authorizeHttpRequests(request -> request
 
                         .requestMatchers(
                                 apiPrefix + "/auth/**",
                                 "/swagger-ui/**",
                                 "/swagger-ui/index.html",
                                 "/v3/api-docs/**",
-                                apiPrefix + "/users/**",
-                                apiPrefix + "/projects/**"
+                                apiPrefix + "/users/**"
+//                                apiPrefix + "/projects/**"
                         ).permitAll()
 
                         .anyRequest().authenticated()
