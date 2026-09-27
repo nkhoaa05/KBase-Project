@@ -43,7 +43,7 @@ public class GlobalExceptionHandler {
             .entrySet().stream()
             .map(entry -> entry.getValue())
                 .collect(Collectors.joining(", "));
-        return error(HttpStatus.BAD_REQUEST, "Validation failed", "VALIDATION_ERROR", details);
+        return error(HttpStatus.BAD_REQUEST, ex.getMessage(), "VALIDATION_ERROR", details);
     }
 
     @ExceptionHandler(ConstraintViolationException.class)
@@ -53,12 +53,12 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(AccessDeniedException.class)
     public ResponseEntity<ApiResponse<Void>> handleAccessDeniedException(AccessDeniedException ex) {
-        return error(HttpStatus.FORBIDDEN, "Access denied", "ACCESS_DENIED");
+        return error(HttpStatus.FORBIDDEN, ex.getMessage(), "ACCESS_DENIED");
     }
 
     @ExceptionHandler(AuthenticationException.class)
     public ResponseEntity<ApiResponse<Void>> handleAuthenticationException(AuthenticationException ex) {
-        return error(HttpStatus.UNAUTHORIZED, "Authentication failed", "AUTHENTICATION_FAILED");
+        return error(HttpStatus.UNAUTHORIZED, ex.getMessage(), "AUTHENTICATION_FAILED");
     }
 
     @ExceptionHandler(Exception.class)
