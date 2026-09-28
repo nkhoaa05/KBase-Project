@@ -37,3 +37,5 @@ build/
 !.env.example
 
 minio
+src/main/java/org/example/kbase/common/config/MinioConfig.java
+src/main/java/org/example/kbase/service/document/MinioStorageService.java

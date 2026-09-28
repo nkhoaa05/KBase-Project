@@ -5,6 +5,7 @@ import java.util.UUID;
 
 import org.example.kbase.common.exception.BadRequestException;
 import org.example.kbase.common.exception.ResourceNotFoundException;
+import org.example.kbase.common.utils.CurrentUserUtil;
 import org.example.kbase.dto.request.AddMemberRequest;
 import org.example.kbase.dto.request.CreateProjectRequest;
 import org.example.kbase.dto.request.RemoveMemberRequest;
@@ -20,8 +21,6 @@ import org.example.kbase.repository.ProjectMemberRepository;
 import org.example.kbase.repository.ProjectRepository;
 import org.example.kbase.repository.UserRepository;
 import org.springframework.security.access.AccessDeniedException;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -32,14 +31,17 @@ public class ProjectService implements IProjectService {
     private final ProjectRepository projectRepository;
     private final ProjectMemberRepository memberRepository;
     private final UserRepository userRepository;
+        private final CurrentUserUtil currentUserUtil;
 
 
     public ProjectService(ProjectRepository projectRepository,
                           ProjectMemberRepository memberRepository,
-                          UserRepository userRepository) {
+                                                  UserRepository userRepository,
+                                                  CurrentUserUtil currentUserUtil) {
         this.projectRepository = projectRepository;
         this.memberRepository = memberRepository;
         this.userRepository = userRepository;
+                this.currentUserUtil = currentUserUtil;
     }
 
 
@@ -52,7 +54,7 @@ public class ProjectService implements IProjectService {
     @Override
     public void createProject(CreateProjectRequest request) {
         Project project = initialProject(request);
-        User user = getCurrentUser();
+        User user = currentUserUtil.getCurrentUser();
 
         ProjectMember member = new ProjectMember();
         member.setProject(project);
@@ -121,7 +123,7 @@ public class ProjectService implements IProjectService {
 
     @Override
     public List<ProjectResponse> getAllProjectByCurrentUser() {
-        User currentUser = getCurrentUser();
+        User currentUser = currentUserUtil.getCurrentUser();
 
         return memberRepository.findAllByMember_Id(currentUser.getId())
                 .stream()
@@ -200,22 +202,10 @@ public class ProjectService implements IProjectService {
 
      */
 
-    // HELPER FUNCTION RETRIEVE CURRENT USER
-    public User getCurrentUser(){
-
-        Authentication authentication =
-                SecurityContextHolder.getContext()
-                        .getAuthentication();
-
-        return userRepository.findByEmail(authentication.getName())
-                .orElseThrow(() ->
-                        new BadRequestException("Bad credential"));
-    }
-
     // HELPER AUTHORIZE PROJECT ROLE (SCOPE IN PROJECT)
     public boolean isAuthorized(Project project, ProjectRole requiredRole) {
 
-        User currentUser = getCurrentUser();
+        User currentUser = currentUserUtil.getCurrentUser();
 
         ProjectMember membership = memberRepository
                 .findByProject_IdAndMember_Id(project.getId(), currentUser.getId())
