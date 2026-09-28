@@ -6,6 +6,7 @@ import org.example.kbase.common.security.user.CustomUserDetailService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
@@ -18,6 +19,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+
+import java.util.Locale;
 
 @Configuration
 @EnableWebSecurity
@@ -46,14 +49,15 @@ public class SecurityConfig {
 
                 .authorizeHttpRequests(request -> request
 
+                        // Public endpoints
                         .requestMatchers(
-                                apiPrefix + "/auth/**",
-                                "/swagger-ui/**",
-                                "/swagger-ui/index.html",
-                                "/v3/api-docs/**",
-                                apiPrefix + "/users/**"
-//                                apiPrefix + "/projects/**"
+                                apiPrefix + "/auth/**"
                         ).permitAll()
+
+                        // User management by Admin
+                        .requestMatchers(
+                                apiPrefix + "/users/**"
+                        ).hasRole("ADMIN")
 
                         .anyRequest().authenticated()
                 )
