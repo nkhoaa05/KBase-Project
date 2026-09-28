@@ -4,6 +4,8 @@ package org.example.kbase.controller;
 import java.util.List;
 import java.util.UUID;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.example.kbase.common.response.ApiResponse;
 import org.example.kbase.model.Document;
 import org.example.kbase.service.document.DocumentService;
@@ -26,6 +28,7 @@ import lombok.RequiredArgsConstructor;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("${api.prefix}/projects/{projectId}/documents")
+@Tag(name = "Document APIs")
 public class DocumentController {
 
     private final DocumentService documentService;
@@ -33,6 +36,9 @@ public class DocumentController {
 
 
     // Upload docs
+    @Operation(
+            summary = "Upload a doc"
+    )
     @PostMapping
         public ResponseEntity<ApiResponse<Document>> upload(
             @PathVariable UUID projectId,
@@ -49,6 +55,9 @@ public class DocumentController {
 
 
     // Get a list of docs
+    @Operation(
+            summary = "Get a list of docs"
+    )
     @GetMapping
         public ResponseEntity<ApiResponse<List<Document>>> list(
             @PathVariable UUID projectId
@@ -61,6 +70,9 @@ public class DocumentController {
     }
 
     // Download docs
+    @Operation(
+            summary = "Download docs"
+    )
     @GetMapping("/{documentId}/download")
     public ResponseEntity<Resource> download(
             @PathVariable UUID projectId,
@@ -100,6 +112,9 @@ public class DocumentController {
     }
 
     // Delete docs
+    @Operation(
+            summary = "Delete a doc"
+    )
     @DeleteMapping("/{documentId}")
         public ResponseEntity<ApiResponse<Void>> delete(
             @PathVariable UUID projectId,
